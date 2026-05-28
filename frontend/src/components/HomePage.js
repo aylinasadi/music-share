@@ -4,7 +4,6 @@ import CreateRoomPage from "./CreateRoomPage";
 import RoomWrapper from "./Room";
 import { Grid, Button, ButtonGroup, Typography } from "@mui/material";
 import { BrowserRouter as Router, Route, Routes, Navigate, Link } from "react-router-dom";
-import CreateRoomPageWrapper from "./CreateRoomPage";
 
 
 class HomePage extends Component {
@@ -79,7 +78,7 @@ class HomePage extends Component {
                         <Route path="/" element={this.state.roomCode ?
                             <Navigate to={"/room/" + this.state.roomCode} /> : this.renderHomePage() }/>
                         <Route path="/join" element={<RoomJoinPage />} />
-                        <Route path="/create" element={<CreateRoomPageWrapper />} />
+                        <Route path="/create" element={<CreateRoomPage />} />
                         <Route
                             path="/room/:roomCode"
                             element={<RoomWrapper leaveRoomCallback={this.clearRoomCode} />} />
