@@ -28,6 +28,7 @@ class HomePage extends Component {
 
     renderHomePage() {
         return (
+            <div className="center-container">
             <Grid container spacing={3} direction="column" justifyContent="center" alignItems="center">
                 <Grid item xs={12} sx={{ textAlign: 'center', color: 'white' }}>
                     <Typography variant="h3" component="h3" sx={{
@@ -60,6 +61,7 @@ class HomePage extends Component {
                     </ButtonGroup>
                 </Grid>
             </Grid>
+            </div>
         );
     }
 
@@ -68,10 +70,8 @@ class HomePage extends Component {
     }
 
     render() {
-        const { roomCode } = this.props;
-        const { votesToSkip, guestCanPause, isHost } = this.state;
         return (
-            <div className="center-container">
+            <div>
             <Router>
                     <Routes>
                         <Route path="/" element={this.state.roomCode ?
