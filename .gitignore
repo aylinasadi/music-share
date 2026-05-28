@@ -18,7 +18,6 @@ media/
 
 # Node
 node_modules/
-frontend/static/frontend/
 
 # Environment variables
 .env
