@@ -133,6 +133,7 @@ class CreateRoomPage extends Component {
         const content = (
             <Grid container spacing={2} direction="column" justifyContent="center" alignItems="center">
                     <Grid item xs={12} sx={{ textAlign: 'center' }}>
+                        <div>
                         <Collapse in={this.state.errorMsg != "" || this.state.successMsg != ""}>
                             {this.state.successMsg != "" ? (
                             <Alert
@@ -152,6 +153,7 @@ class CreateRoomPage extends Component {
                             </Alert>
                             )}
                         </Collapse>
+                        </div>
                     </Grid>
                     <Grid item xs={12} sx={{ textAlign: 'center' }}>
                         <Typography component='h4' variant='h4' sx={{fontFamily: 'Poppins, sans-serif',
