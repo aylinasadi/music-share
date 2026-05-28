@@ -95,7 +95,7 @@ class CreateRoomPage extends Component {
 
     renderCreateButton() {
         return (
-            <Grid container spacing={1} direction="column" justifyContent="center" alignItems="center">
+            <React.Fragment>
             <Grid item xs={12} sx={{ textAlign: 'center', color: 'white' }}>
                 <Button variant="contained" onClick={this.handleRoomButtonPressed} sx={{
                     backgroundColor: '#e91e63',
@@ -111,7 +111,7 @@ class CreateRoomPage extends Component {
                     Back
                 </Button>
                 </Grid>
-                </Grid>
+                </React.Fragment>
         );
     }
 
@@ -175,13 +175,13 @@ class CreateRoomPage extends Component {
                                     label="Play/Pause"
                                     labelPlacement="bottom"
                                     sx={{ color: 'white' }}
-                                    slotProps={{ typography: { sx: { fontFamily: 'Poppins, sans-serif', color: 'white' } } }}
+                                    componentsProps={{ typography: { sx: { fontFamily: 'Poppins, sans-serif', color: 'white' } } }}
                                 />
                                 <FormControlLabel value="false" control={<Radio sx={{ color: 'white', '&.Mui-checked': { color: 'white' } }} />}
                                     label="No Control"
                                     labelPlacement="bottom"
                                     sx={{ color: 'white' }}
-                                    slotProps={{ typography: { sx: { fontFamily: 'Poppins, sans-serif', color: 'white' } } }}
+                                    componentsProps={{ typography: { sx: { fontFamily: 'Poppins, sans-serif', color: 'white' } } }}
                                 />
                             </RadioGroup>
                         </FormControl>
