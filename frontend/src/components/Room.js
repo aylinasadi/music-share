@@ -86,24 +86,20 @@ class Room extends Component {
     renderSettings() {
         return (
             <div className="center-container">
-            <Grid container spacing={1} direction="column" justifyContent="center" alignItems="center">
-            <Grid item xs={12} sx={{ textAlign: 'center', color: 'white' }}>
-                <CreateRoomPageWrapper
+            <CreateRoomPageWrapper
                 update={true}
                 votesToSkip={this.state.votesToSkip}
                 guestCanPause={this.state.guestCanPause}
                 roomCode={this.roomCode}
                 updateCallback={this.getRoomDetails}
-                />
-            </Grid>
-            <Grid item xs={12} sx={{ textAlign: 'center', color: 'white' }}>
+            />
+            <div style={{ textAlign: 'center', marginTop: '16px' }}>
                 <Button variant="contained" onClick={() => this.updateShowSettings(false)} sx={{
                     backgroundColor: '#424242',
                     '&:hover': { backgroundColor: '#212121' },}}>
                     Close
                 </Button>
-            </Grid>
-            </Grid>
+            </div>
             </div>
         )
     }
