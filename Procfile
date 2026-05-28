@@ -1,1 +1,1 @@
-web: gunicorn music_share.wsgi
+web: python manage.py collectstatic --noinput && gunicorn music_share.wsgi
