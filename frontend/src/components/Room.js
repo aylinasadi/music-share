@@ -165,5 +165,7 @@ class Room extends Component {
 export default function RoomWrapper() {
     const { roomCode } = useParams();
     const navigate = useNavigate();
-    return <Room roomCode={roomCode} navigate={navigate} leaveRoomCallback={() => {}} />;
+    return (<div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+    <Room roomCode={roomCode} navigate={navigate} leaveRoomCallback={() => {}} />
+    </div>);
 }
