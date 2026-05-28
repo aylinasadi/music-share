@@ -25,7 +25,11 @@ SECRET_KEY = 'django-insecure-*swy7yhqa1%xs#f1nl^bv8g@h@gn5j8h%xf-2z2yo%w$l(w&a9
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'music-share.up.railway.app', 
+    '127.0.0.1', 
+    'localhost'
+]
 
 
 # Application definition
