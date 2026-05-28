@@ -74,8 +74,8 @@ class HomePage extends Component {
         const { votesToSkip, guestCanPause, isHost } = this.state;
         return (
             <div className="center-container">
-                <Grid container spacing={1} direction="column" justifyContent="center" alignItems="center">
                 <Router>
+                <Grid container spacing={1} direction="column" justifyContent="center" alignItems="center">
                     <Routes>
                         <Route path="/" element={this.state.roomCode ?
                             <Navigate to={"/room/" + this.state.roomCode} /> : this.renderHomePage() }/>
@@ -86,8 +86,8 @@ class HomePage extends Component {
                             element={<RoomWrapper leaveRoomCallback={this.clearRoomCode} />} />
                         <Route path="*" element={<Navigate to="/" />} />
                     </Routes>
-                </Router>
                 </Grid>
+                </Router>
             </div>
         );
     }
