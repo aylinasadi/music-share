@@ -43,11 +43,11 @@ class Room extends Component {
                     votesToSkip: data.votes_to_skip,
                     guestCanPause: data.guest_can_pause,
                     isHost: data.is_host,
+                }, () => {
+                    if (this.state.isHost) {
+                        this.authenticateSpotify();
+                    }
                 });
-
-                if (this.state.isHost) {
-                this.authenticateSpotify();
-                }
             });
     }
 
