@@ -77,7 +77,7 @@ class Room extends Component {
         fetch('/spotify/current-song')
             .then((response) => {
                 if (!response.ok) {
-                    return {};
+                    return null;
                 }
                 return response.json();
             })
