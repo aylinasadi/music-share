@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Grid, Button, Typography } from "@mui/material";
 import CreateRoomPageWrapper from "./CreateRoomPage";
+import MusicPlayer from "./MusicPlayer";
 
 
 
@@ -14,6 +15,7 @@ class Room extends Component {
             isHost: false,
             showSettings: false,
             spotifyAuthenticated: false, 
+            song: {}
         };
         this.roomCode = this.props.roomCode;
         this.leaveButtonPressed = this.leaveButtonPressed.bind(this);
@@ -22,10 +24,15 @@ class Room extends Component {
         this.renderSettings = this.renderSettings.bind(this);
         this.getRoomDetails = this.getRoomDetails.bind(this);
         this.authenticateSpotify = this.authenticateSpotify.bind(this);
+        this.getCurrentSong = this.getCurrentSong.bind(this);
     }
 
     componentDidMount() {
         this.getRoomDetails();
+        this.interval = setInterval(this.getCurrentSong, 1000);
+    }
+    componentWillUnmount() {
+        clearInterval(this.interval);
     }
 
     getRoomDetails() {
@@ -64,6 +71,20 @@ class Room extends Component {
                 });
             }
         });
+    }
+
+    getCurrentSong() {
+        fetch('/spotify/current-song')
+            .then((response) => {
+                if (!response.ok) {
+                    return {};
+                }
+                return response.json();
+            })
+            .then((data) => {
+                this.setState({ song: data });
+                console.log(data);
+            });
     }
 
     leaveButtonPressed() {
@@ -137,19 +158,8 @@ class Room extends Component {
                         Votes To Skip: {votesToSkip}
                     </Typography>
                 </Grid>
-                <Grid item xs={12} sx={{ textAlign: 'center', color: 'white' }}>
-                <Typography variant="h6" component="h6" sx={{ fontFamily: 'Poppins, sans-serif'}}>
-                        Guest Can Pause: {guestCanPause.toString()}
-                    </Typography>
-                </Grid>
-                <Grid item xs={12} sx={{ textAlign: 'center', color: 'white' }}>
-                <Typography variant="h6" component="h6" sx={{ fontFamily: 'Poppins, sans-serif'}}>
-                        Host: {isHost.toString()}
-                    </Typography>
-                </Grid>
-
+                {Object.keys(this.state.song).length > 0 ? <MusicPlayer {...this.state.song} /> : null}
                 {this.state.isHost ? this.renderSettingsButton() : null}
-
                 <Grid item xs={12} sx={{ textAlign: 'center', color: 'white' }}>
                     <Button variant="contained" onClick={ this.leaveButtonPressed } sx={{
                         backgroundColor: '#8e0000',
