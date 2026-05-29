@@ -72,6 +72,8 @@ def execute_spotify_api_request(session_id, endpoint, post_=False, put_=False):
         put(BASE_URL + endpoint, headers=headers)
 
     response = get(BASE_URL + endpoint, {}, headers=headers)
+    print("Spotify response status:", response.status_code)
+    print("Spotify response body:", response.text)
     try:
         return response.json()
     except:
