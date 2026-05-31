@@ -35,6 +35,7 @@ class Room extends Component {
     componentDidMount() {
         this.getRoomDetails();
         this.interval = setInterval(this.getCurrentSong, 1000);
+        this.getQueue();
         this.queueInterval = setInterval(this.getQueue, 10000);
     }
     componentWillUnmount() {
@@ -83,6 +84,7 @@ class Room extends Component {
     }
 
     getQueue() {
+        console.log('fetching queue...');
         fetch('/spotify/queue')
             .then((response) => {
                 if (!response.ok) return null;
