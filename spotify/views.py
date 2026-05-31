@@ -5,7 +5,8 @@ from requests import Request, post
 from rest_framework.response import Response
 from rest_framework import status
 from .util import *
-from api.models import Room, Vote
+from api.models import Room
+from spotify.models import Vote
 
 
 
