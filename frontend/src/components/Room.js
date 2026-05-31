@@ -82,8 +82,8 @@ class Room extends Component {
                 return response.json();
             })
             .then((data) => {
+                if (!data) return;
                 this.setState({ song: data });
-                console.log(data);
             });
     }
 
@@ -158,7 +158,7 @@ class Room extends Component {
                         Votes To Skip: {votesToSkip}
                     </Typography>
                 </Grid>
-                {Object.keys(this.state.song).length > 0 ? <MusicPlayer {...this.state.song} /> : null}
+                {Object.keys(this.state.song).length > 0 ? <MusicPlayer {...this.state.song} votesToSkip={this.state.votesToSkip} pauseSong={this.pauseSong} playSong={this.playSong} skipSong={this.skipSong} /> : null}
                 {this.state.isHost ? this.renderSettingsButton() : null}
                 <Grid item xs={12} sx={{ textAlign: 'center', color: 'white' }}>
                     <Button variant="contained" onClick={ this.leaveButtonPressed } sx={{
