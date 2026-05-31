@@ -41,13 +41,13 @@ class MusicPlayer extends Component {
         const songProgress = (this.props.progress / this.props.duration) * 100;
 
         return (
-            <Card sx={{ backgroundColor: '#1e1e1e', color: 'white', width: '400px' }}>
+            <Card sx={{ backgroundColor: '#1e1e1e', color: 'white', width: '300px' }}>
             <img src={this.props.album_cover} width="100%" style={{ display: 'block' }}/>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '16px' }}>
-                <Typography variant="h6" sx={{ color: 'white', textAlign: 'center' }}>
+                <Typography variant="h6" sx={{ color: 'white', textAlign: 'center', fontFamily: 'Poppins, sans-serif' }}>
                     {this.props.title}
                 </Typography>
-                <Typography variant="subtitle1" sx={{ color: 'grey', mb: 1, textAlign: 'center' }}>
+                <Typography variant="subtitle1" sx={{ color: 'grey', mb: 1, textAlign: 'center', fontFamily: 'Poppins, sans-serif' }}>
                     {this.props.artists}
                 </Typography>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
