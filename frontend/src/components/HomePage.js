@@ -4,6 +4,8 @@ import CreateRoomPage from "./CreateRoomPage";
 import RoomWrapper from "./Room";
 import { Grid, Button, ButtonGroup, Typography } from "@mui/material";
 import { BrowserRouter as Router, Route, Routes, Navigate, Link } from "react-router-dom";
+import Info from "./Info";
+import { motion, AnimatePresence } from "framer-motion";
 
 
 class HomePage extends Component {
@@ -28,12 +30,17 @@ class HomePage extends Component {
 
     renderHomePage() {
         return (
+            <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.3 }}>
             <div className="center-container">
             <Grid container spacing={3} direction="column" justifyContent="center" alignItems="center">
                 <Grid item xs={12} sx={{ textAlign: 'center', color: 'white' }}>
                     <Typography variant="h3" component="h3" sx={{
                         fontFamily: 'Bangers, cursive',
-                        fontSize: '4rem',
+                        fontSize: '3rem',
                         textShadow: '0 0 10px rgba(255,255,255,0.8), 0 0 40px rgba(255,255,255,0.6), 0 0 60px rgba(255,255,255,0.4)',
                         animation: 'hueShift 5s linear infinite'}}>
                         ⋆♪˚Music Share˚♬⋆
@@ -60,8 +67,17 @@ class HomePage extends Component {
                         </Button>
                     </ButtonGroup>
                 </Grid>
+                <Grid item xs={12} sx={{ textAlign: 'center'}}>
+                    <Button variant="contained" to='/info' component={Link} sx={{
+                        backgroundColor: '#00838f',
+                        '&:hover': { backgroundColor: '#006064' },
+                        fontFamily: 'Poppins, sans-serif'}}>
+                        Info
+                    </Button>
+                </Grid>
             </Grid>
             </div>
+            </motion.div>
         );
     }
 
@@ -71,20 +87,19 @@ class HomePage extends Component {
 
     render() {
         return (
-            <div>
             <Router>
-                    <Routes>
-                        <Route path="/" element={this.state.roomCode ?
-                            <Navigate to={"/room/" + this.state.roomCode} /> : this.renderHomePage() }/>
-                        <Route path="/join" element={<RoomJoinPage />} />
-                        <Route path="/create" element={<CreateRoomPage />} />
-                        <Route
-                            path="/room/:roomCode"
-                            element={<RoomWrapper leaveRoomCallback={this.clearRoomCode} />} />
-                        <Route path="*" element={<Navigate to="/" />} />
-                    </Routes>
+                <AnimatePresence mode="wait">
+                        <Routes>
+                            <Route path="/" element={this.state.roomCode ?
+                                <Navigate to={"/room/" + this.state.roomCode} /> : this.renderHomePage() }/>
+                            <Route path="/join" element={<RoomJoinPage />} />
+                            <Route path="/create" element={<CreateRoomPage />} />
+                            <Route path="/info" element={<Info />} />
+                            <Route path="/room/:roomCode" element={<RoomWrapper leaveRoomCallback={this.clearRoomCode} />} />
+                            <Route path="*" element={<Navigate to="/" />} />
+                        </Routes>
+                </AnimatePresence>
             </Router>
-            </div>
         );
     }
 }

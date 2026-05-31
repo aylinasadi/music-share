@@ -5,6 +5,8 @@ from .models import Room
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.http import JsonResponse
+from django.contrib.sessions.models import Session
+from django.utils import timezone
 
 
 class RoomView(generics.ListAPIView):
@@ -18,12 +20,22 @@ class GetRoom(APIView):
 
     def get(self, request, format=None):
         code = request.GET.get(self.lookup_url_kwarg)
+
         if code != None:
             room = Room.objects.filter(code=code)
             
             if len(room) > 0:
                 data = RoomSerializer(room[0]).data
                 data['is_host'] = request.session.session_key == room[0].host
+
+                active_sessions = Session.objects.filter(expire_date__gte=timezone.now())
+                guest_count = 0
+                for session in active_sessions:
+                    session_data = session.get_decoded()
+                    if session_data.get('room_code') == code:
+                        guest_count += 1
+                data['guest_count'] = guest_count
+
                 return Response(data, status=status.HTTP_200_OK)
             
             return Response({'Room Not Found': 'Invalid Room Code.'}, status=status.HTTP_404_NOT_FOUND)

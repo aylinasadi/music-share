@@ -11,6 +11,7 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { Collapse } from "@mui/material";
 import Alert from "@mui/material/Alert";
+import { motion } from "framer-motion";
 
 
 
@@ -95,21 +96,21 @@ class CreateRoomPage extends Component {
 
     renderCreateButton() {
         return (
-            <React.Fragment>
-            <Grid item xs={12} sx={{ textAlign: 'center', color: 'white' }}>
-                <Button variant="contained" onClick={this.handleRoomButtonPressed} sx={{
-                    backgroundColor: '#e91e63',
-                    '&:hover': { backgroundColor: '#c2185b' },
-                    animation: 'buttonGlow 5s linear infinite',}}>
-                    Create A Room
-                </Button>
-                </Grid>
+                <React.Fragment>
                 <Grid item xs={12} sx={{ textAlign: 'center', color: 'white' }}>
-                <Button variant="contained" component={Link} to="/" sx={{
-                    backgroundColor: '#424242',
-                    '&:hover': { backgroundColor: '#212121' },}}>
-                    Back
-                </Button>
+                    <Button variant="contained" onClick={this.handleRoomButtonPressed} sx={{
+                        backgroundColor: '#e91e63',
+                        '&:hover': { backgroundColor: '#c2185b' },
+                        animation: 'buttonGlow 5s linear infinite',}}>
+                        Create A Room
+                    </Button>
+                    </Grid>
+                    <Grid item xs={12} sx={{ textAlign: 'center', color: 'white' }}>
+                    <Button variant="contained" component={Link} to="/" sx={{
+                        backgroundColor: '#424242',
+                        '&:hover': { backgroundColor: '#212121' },}}>
+                        Back
+                    </Button>
                 </Grid>
                 </React.Fragment>
         );
@@ -117,12 +118,12 @@ class CreateRoomPage extends Component {
 
     renderUpdateButton() {
         return (
-            <Grid item xs={12} sx={{ textAlign: 'center', color: 'white' }}>
-                <Button variant="contained" onClick={this.handleUpdateButtonPressed} sx={{
-                    backgroundColor: '#8e24aa',
-                    '&:hover': { backgroundColor: '#6a1b9a' } }}>
-                    Update Room
-                </Button>
+                <Grid item xs={12} sx={{ textAlign: 'center', color: 'white' }}>
+                    <Button variant="contained" onClick={this.handleUpdateButtonPressed} sx={{
+                        backgroundColor: '#8e24aa',
+                        '&:hover': { backgroundColor: '#6a1b9a' } }}>
+                        Update Room
+                    </Button>
                 </Grid>
         );
     }
@@ -131,84 +132,90 @@ class CreateRoomPage extends Component {
     render() {
         const title= this.props.update ? "Update Room" : "Create a Room";
         const content = (
-            <Grid container spacing={2} direction="column" justifyContent="center" alignItems="center">
-                    <Grid item xs={12} sx={{ textAlign: 'center' }}>
-                        <div>
-                        <Collapse in={this.state.errorMsg != "" || this.state.successMsg != ""}>
-                            {this.state.successMsg != "" ? (
-                            <Alert
-                                severity="success"
-                                sx={{ backgroundColor: '#1b5e20', color: 'white', '& .MuiAlert-icon': { color: 'white' } }}
-                                onClose={() => this.setState({ successMsg: "" })}
-                            >
-                                {this.state.successMsg}
-                            </Alert>
-                            ) : (
-                            <Alert
-                                severity="error"
-                                sx={{ backgroundColor: '#b71c1c', color: 'white', '& .MuiAlert-icon': { color: 'white' } }}
-                                onClose={() => this.setState({ errorMsg: "" })}
-                            >
-                                {this.state.errorMsg}
-                            </Alert>
-                            )}
-                        </Collapse>
-                        </div>
+            <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.3 }}>
+                <Grid container spacing={2} direction="column" justifyContent="center" alignItems="center">
+                        <Grid item xs={12} sx={{ textAlign: 'center' }}>
+                            <div>
+                            <Collapse in={this.state.errorMsg != "" || this.state.successMsg != ""}>
+                                {this.state.successMsg != "" ? (
+                                <Alert
+                                    severity="success"
+                                    sx={{ backgroundColor: '#1b5e20', color: 'white', '& .MuiAlert-icon': { color: 'white' } }}
+                                    onClose={() => this.setState({ successMsg: "" })}
+                                >
+                                    {this.state.successMsg}
+                                </Alert>
+                                ) : (
+                                <Alert
+                                    severity="error"
+                                    sx={{ backgroundColor: '#b71c1c', color: 'white', '& .MuiAlert-icon': { color: 'white' } }}
+                                    onClose={() => this.setState({ errorMsg: "" })}
+                                >
+                                    {this.state.errorMsg}
+                                </Alert>
+                                )}
+                            </Collapse>
+                            </div>
+                        </Grid>
+                        <Grid item xs={12} sx={{ textAlign: 'center' }}>
+                            <Typography component='h4' variant='h4' sx={{fontFamily: 'Poppins, sans-serif',
+                                textShadow: '0 0 8px rgba(255,255,255,0.8), 0 0 20px rgba(255,255,255,0.6), 0 0 40px rgba(255,255,255,0.4)'}}>
+                                {title}
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={12} sx={{ textAlign: 'center', color: 'white' }}>
+                            <FormControl component="fieldset">
+                                <FormHelperText sx={{ textAlign: 'center', color: 'white', fontFamily: 'Poppins, sans-serif' }}>
+                                    Guest Control of Playback State
+                                </FormHelperText>
+                                <RadioGroup
+                                row
+                                defaultValue={this.props.guestCanPause.toString()}
+                                onChange={this.handleGuestCanPauseChange}
+                                >
+                                    <FormControlLabel value="true" control={<Radio sx={{ color: 'white', '&.Mui-checked': { color: 'white' } }} />}
+                                        label="Play/Pause"
+                                        labelPlacement="bottom"
+                                        sx={{ color: 'white' }}
+                                        componentsProps={{ typography: { sx: { fontFamily: 'Poppins, sans-serif', color: 'white' } } }}
+                                    />
+                                    <FormControlLabel value="false" control={<Radio sx={{ color: 'white', '&.Mui-checked': { color: 'white' } }} />}
+                                        label="No Control"
+                                        labelPlacement="bottom"
+                                        sx={{ color: 'white' }}
+                                        componentsProps={{ typography: { sx: { fontFamily: 'Poppins, sans-serif', color: 'white' } } }}
+                                    />
+                                </RadioGroup>
+                            </FormControl>
+                        </Grid>
+                        <Grid item xs={12} sx={{ textAlign: 'center', color: 'white' }}>
+                            <FormControl>
+                                <TextField
+                                    required={true}
+                                    type="number"
+                                    onChange={this.handleVotesChange}
+                                    defaultValue={this.state.votesToSkip}
+                                    inputProps={{ min: 1,
+                                    style: { textAlign: 'center', color: 'white' } }}
+                                    sx={{'& .MuiOutlinedInput-root': {
+                                        '& fieldset': { borderColor: 'white' },
+                                        '&:hover fieldset': { borderColor: 'white' },},
+                                    input: { color: 'white' }}}
+                                    />
+                                <FormHelperText sx={{ textAlign: 'center', color: 'white', fontFamily: 'Poppins, sans-serif' }}>
+                                    Votes Required To Skip Song
+                                </FormHelperText>
+                            </FormControl>
+                        </Grid>
+                        {this.props.update
+                        ? this.renderUpdateButton()
+                        : this.renderCreateButton()}
                     </Grid>
-                    <Grid item xs={12} sx={{ textAlign: 'center' }}>
-                        <Typography component='h4' variant='h4' sx={{fontFamily: 'Poppins, sans-serif',
-                            textShadow: '0 0 8px rgba(255,255,255,0.8), 0 0 20px rgba(255,255,255,0.6), 0 0 40px rgba(255,255,255,0.4)'}}>
-                            {title}
-                        </Typography>
-                    </Grid>
-                    <Grid item xs={12} sx={{ textAlign: 'center', color: 'white' }}>
-                        <FormControl component="fieldset">
-                            <FormHelperText sx={{ textAlign: 'center', color: 'white', fontFamily: 'Poppins, sans-serif' }}>
-                                Guest Control of Playback State
-                            </FormHelperText>
-                            <RadioGroup
-                            row
-                            defaultValue={this.props.guestCanPause.toString()}
-                            onChange={this.handleGuestCanPauseChange}
-                            >
-                                <FormControlLabel value="true" control={<Radio sx={{ color: 'white', '&.Mui-checked': { color: 'white' } }} />}
-                                    label="Play/Pause"
-                                    labelPlacement="bottom"
-                                    sx={{ color: 'white' }}
-                                    componentsProps={{ typography: { sx: { fontFamily: 'Poppins, sans-serif', color: 'white' } } }}
-                                />
-                                <FormControlLabel value="false" control={<Radio sx={{ color: 'white', '&.Mui-checked': { color: 'white' } }} />}
-                                    label="No Control"
-                                    labelPlacement="bottom"
-                                    sx={{ color: 'white' }}
-                                    componentsProps={{ typography: { sx: { fontFamily: 'Poppins, sans-serif', color: 'white' } } }}
-                                />
-                            </RadioGroup>
-                        </FormControl>
-                    </Grid>
-                    <Grid item xs={12} sx={{ textAlign: 'center', color: 'white' }}>
-                        <FormControl>
-                            <TextField
-                                required={true}
-                                type="number"
-                                onChange={this.handleVotesChange}
-                                defaultValue={this.state.votesToSkip}
-                                inputProps={{ min: 1,
-                                style: { textAlign: 'center', color: 'white' } }}
-                                sx={{'& .MuiOutlinedInput-root': {
-                                    '& fieldset': { borderColor: 'white' },
-                                    '&:hover fieldset': { borderColor: 'white' },},
-                                input: { color: 'white' }}}
-                                />
-                            <FormHelperText sx={{ textAlign: 'center', color: 'white', fontFamily: 'Poppins, sans-serif' }}>
-                                Votes Required To Skip Song
-                            </FormHelperText>
-                        </FormControl>
-                    </Grid>
-                    {this.props.update
-                    ? this.renderUpdateButton()
-                    : this.renderCreateButton()}
-                </Grid>
+                </motion.div>
         )
 
         return this.props.update ? content : <div className="center-container">{content}</div>;

@@ -158,3 +158,30 @@ class SkipSong(APIView):
             vote.save()
 
         return Response({}, status=status.HTTP_204_NO_CONTENT)
+
+
+class Queue(APIView):
+    def get(self, request, format=None):
+        room_code = request.session.get('room_code')
+        room = Room.objects.filter(code=room_code)
+        if not room.exists():
+            return Response({}, status=status.HTTP_404_NOT_FOUND)
+        
+        host = room[0].host
+        endpoint = "player/queue"
+        response = execute_spotify_api_request(host, endpoint)
+        
+        if 'error' in response:
+            return Response({}, status=status.HTTP_204_NO_CONTENT)
+        
+        queue = []
+        for item in response.get('queue', [])[:5]:
+            artists = ", ".join([a.get('name') for a in item.get('artists', [])])
+            queue.append({
+                'title': item.get('name'),
+                'artists': artists,
+                'album_cover': item.get('album').get('images')[0].get('url'),
+                'id': item.get('id'),
+            })
+        
+        return Response(queue, status=status.HTTP_200_OK)

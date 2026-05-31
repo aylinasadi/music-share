@@ -37,6 +37,13 @@ class MusicPlayer extends Component {
         fetch('/spotify/skip', requestOptions);
     }
 
+    formatTime(ms) {
+        const seconds = Math.floor(ms / 1000);
+        const mins = Math.floor(seconds / 60);
+        const secs = seconds % 60;
+        return `${mins}:${secs.toString().padStart(2, '0')}`;
+    }
+
     render() {
         const songProgress = (this.props.progress / this.props.duration) * 100;
 
@@ -55,12 +62,53 @@ class MusicPlayer extends Component {
                         {this.props.is_playing ? <Pause /> : <PlayArrow />}
                     </IconButton>
                     <IconButton sx={{ color: 'white' }} onClick={this.skipSong}>
-                        {this.props.votes} / {this.props.votes_required}
                         <SkipNext />
                     </IconButton>
+                    <Typography variant="subtitle1" component="span" sx={{ color: 'white' }}>
+                    {this.props.votes} / {this.props.votes_required}
+                    </Typography>
                 </div>
-            </div>
-            <LinearProgress variant="determinate" value={songProgress} />
+                </div>
+                <LinearProgress 
+                    variant="determinate" 
+                    value={songProgress} 
+                    sx={{
+                        '& .MuiLinearProgress-bar': {
+                            transition: 'transform 1s linear',
+                        },
+                        backgroundColor: '#333',
+                        '& .MuiLinearProgress-bar1Determinate': {
+                            backgroundColor: '#e91e63',
+                        }
+                    }}/>
+                <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0 8px 8px 8px' }}>
+                    <Typography variant="caption" sx={{ color: 'grey', fontFamily: 'Poppins, sans-serif' }}>
+                        {this.formatTime(this.props.progress)}
+                    </Typography>
+                    <Typography variant="caption" sx={{ color: 'grey', fontFamily: 'Poppins, sans-serif' }}>
+                        {this.formatTime(this.props.duration)}
+                    </Typography>
+                </div>
+                {this.props.queue && this.props.queue.length > 0 && (
+                <Grid item xs={12} sx={{ textAlign: 'center', color: 'white', width: '350px' }}>
+                    <Typography variant="h6" sx={{ fontFamily: 'Poppins, sans-serif', mb: 1 }}>
+                        Up Next
+                    </Typography>
+                    {this.props.queue.map((song, index) => (
+                        <div key={index} style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px' }}>
+                            <img src={song.album_cover} width="40px" height="40px" style={{ borderRadius: '4px' }} />
+                            <div style={{ textAlign: 'left' }}>
+                                <Typography variant="body2" sx={{ color: 'white', fontFamily: 'Poppins, sans-serif' }}>
+                                    {song.title}
+                                </Typography>
+                                <Typography variant="caption" sx={{ color: 'grey', fontFamily: 'Poppins, sans-serif' }}>
+                                    {song.artists}
+                                </Typography>
+                            </div>
+                        </div>
+                    ))}
+                </Grid>
+            )}
         </Card>
         );
     }

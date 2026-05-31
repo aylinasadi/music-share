@@ -26,6 +26,7 @@
     "@mui/icons-material": "^9.0.1",
     "@mui/lab": "^9.0.0-beta.3",
     "@mui/material": "^9.0.1",
+    "framer-motion": "^12.40.0",
     "react-router-dom": "^7.15.1"
   }
 }
