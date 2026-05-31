@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from .util import *
 from api.models import Room
-from spotify.models import Vote
+from .models import Vote
 
 
 
@@ -94,6 +94,8 @@ class CurrentSong(APIView):
             name = artist.get('name')
             artists_string += name
 
+        votes = len(Vote.objects.filter(room=room, song_id=song_id))
+
         song = {
             'title': item.get('name'),
             'artists': artists_string,
@@ -102,10 +104,21 @@ class CurrentSong(APIView):
             'album_cover': album_cover,
             'is_playing': is_playing,
             'id': song_id,
-            'votes': 0
+            'votes': votes,
+            'votes_required': room.votes_to_skip
         }
 
+        self.update_room_song(room, song_id)
+
         return Response(song, status=status.HTTP_200_OK)
+    
+    def update_room_song(self, room, song_id):
+        current_song = room.current_song
+
+        if current_song != song_id:
+            room.current_song = song_id
+            room.save(update_fields=['current_song'])
+            votes = Vote.objects.filter(room=room).delete()
     
 
 class PauseSong(APIView):

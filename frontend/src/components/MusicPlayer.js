@@ -55,11 +55,9 @@ class MusicPlayer extends Component {
                         {this.props.is_playing ? <Pause /> : <PlayArrow />}
                     </IconButton>
                     <IconButton sx={{ color: 'white' }} onClick={this.skipSong}>
+                        {this.props.votes} / {this.props.votes_required}
                         <SkipNext />
                     </IconButton>
-                    <Typography variant="subtitle1" component="span" sx={{ color: 'white' }}>
-                        {this.props.votes} / {this.props.votesToSkip}
-                    </Typography>
                 </div>
             </div>
             <LinearProgress variant="determinate" value={songProgress} />
